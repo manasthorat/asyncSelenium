@@ -1,0 +1,16 @@
+{
+  "session_id": "art-73cb1196",
+  "genre": "Art",
+  "status": "running",
+  "created_at": "2025-05-28T09:51:33.521441",
+  "started_at": "2025-05-28T09:51:33.523756",
+  "completed_at": null,
+  "container_id": "worker-22",
+  "browser_id": null,
+  "books_scraped": 0,
+  "pages_scraped": 0,
+  "errors": [],
+  "retries": 0,
+  "last_checkpoint": null,
+  "checkpoint_data": {}
+}

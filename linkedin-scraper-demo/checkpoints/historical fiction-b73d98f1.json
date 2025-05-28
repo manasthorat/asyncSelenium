@@ -1,0 +1,27 @@
+{
+  "session_id": "historical fiction-b73d98f1",
+  "genre": "Historical Fiction",
+  "status": "failed",
+  "created_at": "2025-05-28T08:59:23.519639",
+  "started_at": "2025-05-28T08:59:23.522346",
+  "completed_at": "2025-05-28T09:04:59.169573",
+  "container_id": "worker-2",
+  "browser_id": null,
+  "books_scraped": 0,
+  "pages_scraped": 0,
+  "errors": [
+    {
+      "timestamp": "2025-05-28T09:04:51.913666",
+      "error_type": "TimeoutError",
+      "error_message": "Session exceeded timeout of 300 seconds"
+    },
+    {
+      "timestamp": "2025-05-28T09:04:59.169581",
+      "error_type": "WebDriverException",
+      "error_message": "Message: Unable to find handler for (DELETE) /session/dd889d0df5d47b34b80d5ce517e6d6df\n"
+    }
+  ],
+  "retries": 0,
+  "last_checkpoint": null,
+  "checkpoint_data": {}
+}

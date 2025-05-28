@@ -1,0 +1,16 @@
+{
+  "session_id": "humor-9540b610",
+  "genre": "Humor",
+  "status": "running",
+  "created_at": "2025-05-28T09:55:08.115927",
+  "started_at": "2025-05-28T09:55:08.118397",
+  "completed_at": null,
+  "container_id": "worker-4",
+  "browser_id": null,
+  "books_scraped": 0,
+  "pages_scraped": 0,
+  "errors": [],
+  "retries": 0,
+  "last_checkpoint": null,
+  "checkpoint_data": {}
+}

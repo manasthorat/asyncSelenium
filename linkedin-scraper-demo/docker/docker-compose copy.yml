@@ -1,0 +1,165 @@
+version: '3.8'
+
+# This docker-compose file sets up a Selenium Grid with hub and multiple browser nodes
+# for distributed web scraping
+
+services:
+  # Selenium Hub - Central point that manages browser nodes
+  selenium-hub:
+    image: selenium/hub:4.15.0-20231129
+    container_name: selenium-hub
+    ports:
+      - "4444:4444"  # Selenium Grid UI and API
+      - "4443:4443"  # Selenium Grid UI HTTPS
+      - "4442:4442"  # Event bus port for nodes
+    environment:
+      # Grid configuration
+      - GRID_MAX_SESSION=10  # Maximum concurrent sessions
+      - GRID_BROWSER_TIMEOUT=300  # Browser timeout in seconds
+      - GRID_TIMEOUT=300  # Grid timeout in seconds
+      - GRID_NEW_SESSION_WAIT_TIMEOUT=60  # Wait time for new session
+      - SE_SESSION_REQUEST_TIMEOUT=300  # Session request timeout
+      - SE_SESSION_RETRY_INTERVAL=5  # Retry interval for session creation
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:4444/wd/hub/status"]
+      interval: 15s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    networks:
+      - scraper-network
+
+  # Chrome Node 1 - First browser node
+  chrome-node-1:
+    image: selenium/node-chrome:4.15.0-20231129
+    container_name: chrome-node-1
+    depends_on:
+      selenium-hub:
+        condition: service_healthy
+    environment:
+      # Node registration settings
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      # Resource limits per node
+      - SE_NODE_MAX_SESSIONS=3  # Max parallel sessions per node
+      - SE_NODE_SESSION_TIMEOUT=300
+      # Browser specific settings
+      - SE_OPTS=--log-level FINE  # Detailed logging
+      - SE_CHROME_ARGS=--disable-dev-shm-usage --no-sandbox
+      # Memory optimization
+      - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+      - SE_NODE_MAX_INSTANCES=3
+    volumes:
+      - /dev/shm:/dev/shm  # Shared memory for Chrome
+    deploy:
+      resources:
+        limits:
+          cpus: '1'  # Limit to 1 CPU core
+          memory: 2G  # Limit to 2GB RAM
+        reservations:
+          cpus: '0.5'
+          memory: 1G
+    networks:
+      - scraper-network
+
+  # Chrome Node 2 - Second browser node
+  chrome-node-2:
+    image: selenium/node-chrome:4.15.0-20231129
+    container_name: chrome-node-2
+    depends_on:
+      selenium-hub:
+        condition: service_healthy
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_MAX_SESSIONS=3
+      - SE_NODE_SESSION_TIMEOUT=300
+      - SE_OPTS=--log-level FINE
+      - SE_CHROME_ARGS=--disable-dev-shm-usage --no-sandbox
+      - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+      - SE_NODE_MAX_INSTANCES=3
+    volumes:
+      - /dev/shm:/dev/shm
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 1G
+    networks:
+      - scraper-network
+
+  # Firefox Node - Alternative browser for testing
+  firefox-node:
+    image: selenium/node-firefox:4.15.0-20231129
+    container_name: firefox-node
+    depends_on:
+      selenium-hub:
+        condition: service_healthy
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_MAX_SESSIONS=2  # Firefox uses less memory
+      - SE_NODE_SESSION_TIMEOUT=300
+      - SE_OPTS=--log-level FINE
+    volumes:
+      - /dev/shm:/dev/shm
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 1G
+    networks:
+      - scraper-network
+
+  # Optional: Redis for production-like queue management
+  redis:
+    image: redis:7-alpine
+    container_name: scraper-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - scraper-network
+
+  # Optional: Simple monitoring with cAdvisor
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    ports:
+      - "8080:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    privileged: true
+    devices:
+      - /dev/kmsg
+    networks:
+      - scraper-network
+
+networks:
+  scraper-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  redis-data:

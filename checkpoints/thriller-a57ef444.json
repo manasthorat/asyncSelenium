@@ -1,0 +1,16 @@
+{
+  "session_id": "thriller-a57ef444",
+  "genre": "Thriller",
+  "status": "running",
+  "created_at": "2025-05-28T09:55:44.541067",
+  "started_at": "2025-05-28T09:55:44.543659",
+  "completed_at": null,
+  "container_id": "worker-11",
+  "browser_id": null,
+  "books_scraped": 0,
+  "pages_scraped": 0,
+  "errors": [],
+  "retries": 0,
+  "last_checkpoint": null,
+  "checkpoint_data": {}
+}

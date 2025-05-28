@@ -1,0 +1,27 @@
+{
+  "session_id": "sequential art-3d4c9d46",
+  "genre": "Sequential Art",
+  "status": "failed",
+  "created_at": "2025-05-28T08:54:06.487795",
+  "started_at": "2025-05-28T08:54:06.490130",
+  "completed_at": "2025-05-28T08:59:38.983002",
+  "container_id": "worker-3",
+  "browser_id": null,
+  "books_scraped": 0,
+  "pages_scraped": 0,
+  "errors": [
+    {
+      "timestamp": "2025-05-28T08:59:09.054760",
+      "error_type": "TimeoutError",
+      "error_message": "Session exceeded timeout of 300 seconds"
+    },
+    {
+      "timestamp": "2025-05-28T08:59:38.983009",
+      "error_type": "InvalidSessionIdException",
+      "error_message": "Message: Unable to find session with ID: 770f9b91ec20aa42f3c383a090dc5abf\nBuild info: version: '4.15.0', revision: '1d14b5521b'\nSystem info: os.name: 'Linux', os.arch: 'amd64', os.version: '6.6.87.1-microsoft-standard-WSL2', java.version: '11.0.21'\nDriver info: driver.version: unknown\nStacktrace:\norg.openqa.selenium.NoSuchSessionException: Unable to find session with ID: 770f9b91ec20aa42f3c383a090dc5abf\nBuild info: version: '4.15.0', revision: '1d14b5521b'\nSystem info: os.name: 'Linux', os.arch: 'amd64', os.version: '6.6.87.1-microsoft-standard-WSL2', java.version: '11.0.21'\nDriver info: driver.version: unknown\n\tat org.openqa.selenium.grid.sessionmap.local.LocalSessionMap.get(LocalSessionMap.java:132)\n\tat org.openqa.selenium.grid.router.HandleSession.lambda$loadSessionId$4(HandleSession.java:160)\n\tat io.opentelemetry.context.Context.lambda$wrap$2(Context.java:224)\n\tat org.openqa.selenium.grid.router.HandleSession.execute(HandleSession.java:122)\n\tat org.openqa.selenium.remote.http.Route$PredicatedRoute.handle(Route.java:382)\n\tat org.openqa.selenium.remote.http.Route.execute(Route.java:69)\n\tat org.openqa.selenium.remote.http.Route$CombinedRoute.handle(Route.java:345)\n\tat org.openqa.selenium.remote.http.Route.execute(Route.java:69)\n\tat org.openqa.selenium.grid.router.Router.execute(Router.java:87)\n\tat org.openqa.selenium.grid.web.EnsureSpecCompliantResponseHeaders.lambda$apply$0(EnsureSpecCompliantResponseHeaders.java:34)\n\tat org.openqa.selenium.remote.http.Filter$1.execute(Filter.java:63)\n\tat org.openqa.selenium.remote.http.Route$CombinedRoute.handle(Route.java:345)\n\tat org.openqa.selenium.remote.http.Route.execute(Route.java:69)\n\tat org.openqa.selenium.remote.http.Route$NestedRoute.handle(Route.java:271)\n\tat org.openqa.selenium.remote.http.Route.execute(Route.java:69)\n\tat org.openqa.selenium.remote.http.Route$CombinedRoute.handle(Route.java:345)\n\tat org.openqa.selenium.remote.http.Route.execute(Route.java:69)\n\tat org.openqa.selenium.remote.http.Route$CombinedRoute.handle(Route.java:345)\n\tat org.openqa.selenium.remote.http.Route.execute(Route.java:69)\n\tat org.openqa.selenium.remote.http.Route$CombinedRoute.handle(Route.java:345)\n\tat org.openqa.selenium.remote.http.Route.execute(Route.java:69)\n\tat org.openqa.selenium.remote.http.Route$CombinedRoute.handle(Route.java:345)\n\tat org.openqa.selenium.remote.http.Route.execute(Route.java:69)\n\tat org.openqa.selenium.remote.AddWebDriverSpecHeaders.lambda$apply$0(AddWebDriverSpecHeaders.java:35)\n\tat org.openqa.selenium.remote.ErrorFilter.lambda$apply$0(ErrorFilter.java:44)\n\tat org.openqa.selenium.remote.http.Filter$1.execute(Filter.java:63)\n\tat org.openqa.selenium.remote.ErrorFilter.lambda$apply$0(ErrorFilter.java:44)\n\tat org.openqa.selenium.remote.http.Filter$1.execute(Filter.java:63)\n\tat org.openqa.selenium.netty.server.SeleniumHandler.lambda$channelRead0$0(SeleniumHandler.java:44)\n\tat java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\n"
+    }
+  ],
+  "retries": 0,
+  "last_checkpoint": null,
+  "checkpoint_data": {}
+}

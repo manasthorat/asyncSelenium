@@ -1,0 +1,32 @@
+# Web scraping and browser automation
+selenium==4.15.2
+webdriver-manager==4.0.1  # Automatically manages driver binaries
+
+# Async programming support
+aiohttp==3.9.1  # Async HTTP client/server
+asyncio-throttle==1.0.2  # Rate limiting for async operations
+
+# Data handling
+pandas==2.1.4  # Data manipulation and CSV operations
+lxml==4.9.3  # HTML parsing, used by pandas
+
+# Configuration and environment
+python-dotenv==1.0.0  # Load environment variables from .env file
+pyyaml==6.0.1  # YAML configuration file support
+
+# Logging and monitoring
+colorlog==6.8.0  # Colored logging output
+structlog==23.2.0  # Structured logging
+
+# Utilities
+tenacity==8.2.3  # Retry library with various backoff strategies
+tqdm==4.66.1  # Progress bars for loops
+
+# Development tools (optional but recommended)
+pytest==7.4.3  # Testing framework
+pytest-asyncio==0.21.1  # Async test support
+black==23.12.1  # Code formatter
+flake8==6.1.0  # Linting
+
+# Type hints support
+typing-extensions==4.9.0

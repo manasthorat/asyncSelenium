@@ -1,0 +1,117 @@
+version: '3.8'
+
+# Lightweight configuration for systems with limited resources
+# Optimized for 8GB RAM systems with high existing usage
+
+services:
+  # Selenium Hub - Minimal resources
+  selenium-hub:
+    image: selenium/hub:4.15.0-20231129
+    container_name: selenium-hub
+    ports:
+      - "4444:4444"
+      - "4443:4443"
+      - "4442:4442"
+    environment:
+      - GRID_MAX_SESSION=8  # Total sessions
+      - GRID_BROWSER_TIMEOUT=300
+      - GRID_TIMEOUT=300
+      - SE_SESSION_REQUEST_TIMEOUT=300
+      - SE_NODE_SESSION_TIMEOUT=300
+      - JAVA_OPTS=-Xmx512m  # Limit Java heap
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:4444/wd/hub/status"]
+      interval: 15s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    networks:
+      - scraper-network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+
+  # Chrome Node 1 - Limited resources
+  chrome-node-1:
+    image: selenium/node-chrome:4.15.0-20231129
+    container_name: chrome-node-1
+    depends_on:
+      selenium-hub:
+        condition: service_healthy
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_MAX_SESSIONS=4  # 4 sessions per node
+      - SE_NODE_SESSION_TIMEOUT=300
+      - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+      - SE_OPTS=--log-level WARNING
+      - START_XVFB=true
+      - SE_SCREEN_WIDTH=1280  # Smaller screen for less memory
+      - SE_SCREEN_HEIGHT=720
+      - NODE_MAX_SESSION=4
+      - NODE_MAX_INSTANCES=4
+      - JAVA_OPTS=-Xmx1g  # Limit Java heap
+      # Minimal Chrome flags for low resource usage
+      - SE_CHROME_ARGS=--disable-dev-shm-usage --no-sandbox --disable-gpu --disable-web-security --disable-features=VizDisplayCompositor --window-size=1280,720 --disable-images --disable-javascript
+    volumes:
+      - /dev/shm:/dev/shm
+    shm_size: 512m  # Reduced shared memory
+    deploy:
+      resources:
+        limits:
+          cpus: '1.5'
+          memory: 1.5G
+        reservations:
+          cpus: '0.5'
+          memory: 1G
+    networks:
+      - scraper-network
+
+  # Chrome Node 2 - Limited resources
+  chrome-node-2:
+    image: selenium/node-chrome:4.15.0-20231129
+    container_name: chrome-node-2
+    depends_on:
+      selenium-hub:
+        condition: service_healthy
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_MAX_SESSIONS=4
+      - SE_NODE_SESSION_TIMEOUT=300
+      - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+      - SE_OPTS=--log-level WARNING
+      - START_XVFB=true
+      - SE_SCREEN_WIDTH=1280
+      - SE_SCREEN_HEIGHT=720
+      - NODE_MAX_SESSION=4
+      - NODE_MAX_INSTANCES=4
+      - JAVA_OPTS=-Xmx1g
+      - SE_CHROME_ARGS=--disable-dev-shm-usage --no-sandbox --disable-gpu --disable-web-security --disable-features=VizDisplayCompositor --window-size=1280,720 --disable-images --disable-javascript
+    volumes:
+      - /dev/shm:/dev/shm
+    shm_size: 512m
+    deploy:
+      resources:
+        limits:
+          cpus: '1.5'
+          memory: 1.5G
+        reservations:
+          cpus: '0.5'
+          memory: 1G
+    networks:
+      - scraper-network
+
+networks:
+  scraper-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

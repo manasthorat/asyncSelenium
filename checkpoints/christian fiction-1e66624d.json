@@ -1,0 +1,16 @@
+{
+  "session_id": "christian fiction-1e66624d",
+  "genre": "Christian Fiction",
+  "status": "running",
+  "created_at": "2025-05-28T09:55:29.710374",
+  "started_at": "2025-05-28T09:55:29.714942",
+  "completed_at": null,
+  "container_id": "worker-8",
+  "browser_id": null,
+  "books_scraped": 0,
+  "pages_scraped": 0,
+  "errors": [],
+  "retries": 0,
+  "last_checkpoint": null,
+  "checkpoint_data": {}
+}
