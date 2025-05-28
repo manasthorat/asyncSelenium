@@ -9,12 +9,6 @@ A demonstration of high-scale web scraping architecture using Selenium Grid, Doc
 - **Data Aggregation**: Centralized data collection into single CSV
 - **Monitoring**: Real-time progress tracking and metrics
 
-## Prerequisites
-
-- Python 3.10+
-- Docker and Docker Compose
-- 8GB RAM minimum (for running multiple browser containers)
-- Unix-based OS (Linux/MacOS) or WSL2 on Windows
 
 ## Quick Start
 
@@ -70,39 +64,8 @@ linkedin-scraper-demo/
 └── requirements.txt       # Python dependencies
 ```
 
-## Configuration
-
-Key settings in `.env`:
-- `MAX_CONCURRENT_SESSIONS`: Number of parallel browser sessions
-- `SCRAPE_DELAY_MIN/MAX`: Delay between requests (seconds)
-- `OUTPUT_FILE_PATH`: Where to save scraped data
-- `LOG_LEVEL`: Logging verbosity (DEBUG, INFO, WARNING, ERROR)
-
-## Monitoring
 
 - **Selenium Grid UI**: http://localhost:4444
-- **cAdvisor** (container metrics): http://localhost:8080
-- **Application logs**: `./logs/scraper.log`
-
-## Development
-
-### Running Tests
-```bash
-pytest tests/
-```
-
-### Code Formatting
-```bash
-black src/
-flake8 src/
-```
-
-### Debugging
-- Set `LOG_LEVEL=DEBUG` in `.env`
-- Check browser screenshots in `./logs/screenshots/`
-- Monitor container logs: `docker-compose logs -f`
-
-## Troubleshooting
 
 ### Selenium Grid not starting
 ```bash
@@ -116,23 +79,3 @@ docker-compose logs selenium-hub
 docker-compose down
 docker-compose up -d
 ```
-
-### Browser sessions failing
-- Increase memory limits in docker-compose.yml
-- Reduce MAX_CONCURRENT_SESSIONS
-- Check available system resources
-
-### Data not being saved
-- Verify OUTPUT_FILE_PATH exists and is writable
-- Check logs for write errors
-- Ensure BUFFER_SIZE is appropriate
-
-## Performance Tuning
-
-- **Memory**: Each Chrome node uses ~2GB RAM
-- **CPU**: Allocate 1 CPU core per 2-3 browser sessions
-- **Disk**: Ensure sufficient space for logs and output
-
-## License
-
-MIT License - See LICENSE file for details
