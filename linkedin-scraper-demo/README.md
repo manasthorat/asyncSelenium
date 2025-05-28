@@ -1,4 +1,4 @@
-# LinkedIn-Style Web Scraper Demo
+# Web Scraper Demo
 
 A demonstration of high-scale web scraping architecture using Selenium Grid, Docker, and AsyncIO. This project scrapes book data from books.toscrape.com to simulate LinkedIn automation patterns.
 
